@@ -1,0 +1,65 @@
+mutation createCustomer {
+  createCustomer(input: {
+    customerId: "1",
+    firstName: "Roger",
+    lastName: "Federer",
+    email: "roger.federer@gmail.com"
+    age: 41
+  }) {
+    customerId
+		age
+  }
+}
+
+
+query getCustomers {
+  customers {
+    customerId
+    age
+    email
+    firstName
+    lastName
+  }
+}
+
+
+query getCustomer($id: ID!) {
+  customer(customerId: $id) {
+    firstName
+    lastName
+    email
+  }
+}
+
+{
+  "id": "2"
+}
+
+
+mutation deleteCustomer($id: ID!) {
+  deleteCustomer(customerId: $id) {
+    firstName
+    lastName
+    email
+  }
+}
+
+{
+  "id": "1"
+}
+
+
+mutation updateCustomer($id: ID!) {
+  updateCustomer(customerId: $id, input: {
+		email: "novak.Djokovic@gmail.com"
+  }) {
+    customerId
+		age
+    firstName
+    email
+  }
+}
+
+{
+  "id": "1"
+}
