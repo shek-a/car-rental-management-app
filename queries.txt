@@ -1,0 +1,180 @@
+mutation createCustomer {
+  createCustomer(input: {
+    customerId: "1",
+    firstName: "Roger",
+    lastName: "Federer",
+    email: "roger.federer@gmail.com"
+    age: 41
+  }) {
+    customerId
+		age
+  }
+}
+
+
+query getCustomers {
+  customers {
+    customerId
+    age
+    email
+    firstName
+    lastName
+  }
+}
+
+
+query getCustomer($id: ID!) {
+  customer(customerId: $id) {
+    firstName
+    lastName
+    email
+  }
+}
+
+{
+  "id": "2"
+}
+
+
+mutation deleteCustomer($id: ID!) {
+  deleteCustomer(customerId: $id) {
+    firstName
+    lastName
+    email
+  }
+}
+
+{
+  "id": "1"
+}
+
+
+mutation updateCustomer($id: ID!) {
+  updateCustomer(customerId: $id, input: {
+		email: "novak.Djokovic@gmail.com"
+  }) {
+    customerId
+		age
+    firstName
+    email
+  }
+}
+
+{
+  "id": "1"
+}
+
+
+mutation createCar {
+  createCar(input: {
+    carId: "1",
+    make: "Rolls Royce",
+    model: "Ghost",
+    type: SEDAN
+    costPerDay: 100.75
+  }) {
+    carId
+		model
+    type
+  }
+}
+
+
+query getCars {
+  cars {
+    carId
+    make
+    model
+    type
+    costPerDay
+    leasedDate
+    returnDate
+  }
+}
+
+
+query getCar($id: ID!) {
+  car(carId: $id) {
+    carId
+    make
+    model
+    type
+    costPerDay
+    leasedDate
+    returnDate
+  }
+}
+
+{
+  "id": "2"
+}
+
+
+mutation updateCar($id: ID!) {
+  updateCar(carId: $id, input: {
+		leasedDate: "2023-09-18",
+    returnDate: "2023-09-21"
+  }) {
+    carId
+		model
+    type
+    leasedDate
+    returnDate
+  }
+}
+
+{
+  "id": 3
+}
+
+
+mutation deleteCar($id: ID!) {
+  deleteCar(carId: $id) {
+    carId
+		model
+    type
+  }
+}
+
+{
+  "id": 1
+}
+
+mutation addCarToCustomer($carId: ID!, $customerId: ID!) {
+  addCarToCustomer(carId: $carId, customerId: $customerId) {
+    customerId
+		age
+    firstName
+    email
+    cars {
+      make
+      model
+      leasedDate
+    }
+  }
+}
+
+{
+  "customerId": 1,
+  "carId": 2
+}
+
+
+mutation removeCarFromCustomer($carId: ID!, $customerId: ID!) {
+  removeCarFromCustomer(carId: $carId, customerId: $customerId) {
+    customerId
+		age
+    firstName
+    email
+    cars {
+      make
+      model
+      leasedDate
+    }
+  }
+}
+
+{
+  "customerId": 4,
+  "carId": 34
+}

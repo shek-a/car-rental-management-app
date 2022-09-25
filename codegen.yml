@@ -1,0 +1,9 @@
+overwrite: true
+schema: './src/typeDefs.ts'
+require:
+  - ts-node/register
+generates:
+  ./src/generated/types.ts:
+    plugins:
+      - typescript
+      - typescript-mongodb
