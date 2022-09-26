@@ -1,7 +1,7 @@
 import express from "express";
 import { apolloServer } from "./apolloServer";
 import { GRAPHQL_PATH, MONGODB_CONNECTION_URI, PORT } from "./config/config";
-import { connectToMongoDb } from "./mongoose";
+import { connectToMongoDb } from "./mongodb";
 
 const app = express();
 

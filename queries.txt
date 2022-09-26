@@ -158,3 +158,23 @@ mutation addCarToCustomer($carId: ID!, $customerId: ID!) {
   "customerId": 1,
   "carId": 2
 }
+
+
+mutation removeCarFromCustomer($carId: ID!, $customerId: ID!) {
+  removeCarFromCustomer(carId: $carId, customerId: $customerId) {
+    customerId
+		age
+    firstName
+    email
+    cars {
+      make
+      model
+      leasedDate
+    }
+  }
+}
+
+{
+  "customerId": 4,
+  "carId": 34
+}
