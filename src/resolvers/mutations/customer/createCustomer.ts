@@ -1,5 +1,4 @@
-import { CreateCustomerInput } from '@/generated/types';
-import { Customer } from '@/generated/types';
+import { Customer, CreateCustomerInput } from '@/generated/types';
 import { CustomerModel } from '@/model/customer';
 
 

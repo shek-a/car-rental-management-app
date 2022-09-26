@@ -7,7 +7,6 @@ jest.spyOn(CustomerModel, "find").mockReturnValue(Promise.resolve([createNewCust
 
 
 it("should return all customers", () => {
-
-  const allCustomer = customers();
-  expect(allCustomer).resolves.toEqual([createNewCustomer("1"), createNewCustomer("2")]);
+  const allCustomers = customers();
+  expect(allCustomers).resolves.toEqual([createNewCustomer("1"), createNewCustomer("2")]);
 });

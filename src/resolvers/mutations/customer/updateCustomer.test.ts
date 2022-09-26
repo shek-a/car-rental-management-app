@@ -15,7 +15,7 @@ it("should update an existing customer", () => {
   expect(updatedCustomer).resolves.toEqual(createNewCustomer("1"));
 });
 
-it("should throw an error when provided customer id already exsists", () => {
+it("should throw an error when the provided customer id already exsists", () => {
     // @ts-ignore
     jest.spyOn(CustomerModel, 'findOne').mockReturnValueOnce(null);
     
