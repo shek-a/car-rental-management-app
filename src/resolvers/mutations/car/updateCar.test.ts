@@ -15,7 +15,7 @@ it("should update an existing car", () => {
   expect(updatedCar).resolves.toEqual(createNewCar("1"));
 });
 
-it("should throw an error when the provided car id already exsists", () => {
+it("should throw an error when the provided car id does not exsist", () => {
     // @ts-ignore
     jest.spyOn(CarModel, 'findOne').mockReturnValueOnce(null);
     

@@ -14,7 +14,6 @@ export const addCarToCustomer = async (
   }
 
   const customer = await CustomerModel.findOne({ customerId }).populate("cars");
-  console.log('customer', customer);
 
   if (!customer) {
       throw new Error(`Customer id ${customerId} does not exist`);
@@ -32,6 +31,7 @@ export const addCarToCustomer = async (
     car.customer = customer;
  }
 
+ // @ts-ignore
 await car.save();
 
 customer.cars?.push(car);

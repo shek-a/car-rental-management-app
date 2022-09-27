@@ -14,7 +14,6 @@ export const removeCarFromCustomer = async (
   }
 
   const customer = await CustomerModel.findOne({ customerId }).populate("cars");
-  console.log('customer', customer);
 
   if (!customer) {
       throw new Error(`Customer id ${customerId} does not exist`);

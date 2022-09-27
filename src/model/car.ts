@@ -5,7 +5,7 @@ import {
 import { Car } from "@/generated/types";
 import { Schema, model } from "mongoose";
 
-const carSchema = new Schema<Car>({
+export const carSchema = new Schema<Car>({
   carId: Number,
   make: String,
   model: String,

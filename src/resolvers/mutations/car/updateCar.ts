@@ -10,9 +10,6 @@ export const updateCar = async(
         throw new Error(`Car id ${carId} does not exist`);
     }
 
-    console.log("carId", carId);
-    console.log("input", input);
-
     const updatedCar = await CarModel.findOneAndUpdate({ carId }, input, {
         new: true
       });

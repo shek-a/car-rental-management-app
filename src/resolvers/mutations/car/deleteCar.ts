@@ -1,5 +1,7 @@
 import { Car, QueryCarArgs } from "@/generated/types";
 import { CarModel } from "@/model/car";
+import { CustomerModel } from "@/model/customer";
+import  { ObjectId } from "mongodb";
 
 export const deleteCar = async (
   _: any,
@@ -13,6 +15,12 @@ export const deleteCar = async (
 
     // @ts-ignore
     await CarModel.deleteOne({carId: car.carId});
+
+    await CustomerModel.findOneAndUpdate(
+      { _id: car.customer },
+      { $pull: { cars: new ObjectId(car.id) } },
+      { new: true }
+    )
 
     // @ts-ignore
     return car;
