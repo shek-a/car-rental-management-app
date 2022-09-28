@@ -39,7 +39,7 @@ yarn start
 ```
 
 ### Samaple Requests
-Use any API client to call the application's GraphQL end point
+Use any API client to call the application's GraphQL API.
 A handy one is the Chrome Plugin, 'GraphQL Playground for Chrome'
 https://chrome.google.com/webstore/detail/graphql-playground-for-ch/kjhjcgclphafojaeeickcokfbhlegecd?hl=en 
 
