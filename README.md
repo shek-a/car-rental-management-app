@@ -4,7 +4,7 @@ The Car Rental Management Application is a Node application which allows car ren
 GraphQL API
 
 ## Requirements
-You need to following installed to run the application locally
+You need the following installed to run the application locally
 * Node
 * Yarn
 * Docker
