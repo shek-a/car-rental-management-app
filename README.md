@@ -38,12 +38,12 @@ Run the application using following command:
 yarn start
 ```
 
-### Calling GraphQL API
+### Calling the Application's GraphQL API
 Use any API client to call the application's GraphQL API.
 A handy one is the Chrome Plugin, 'GraphQL Playground for Chrome'
 https://chrome.google.com/webstore/detail/graphql-playground-for-ch/kjhjcgclphafojaeeickcokfbhlegecd?hl=en 
 
-Below are some of the sample requests
+Below are some of the sample requests:
 
 #### Creating a customer
 ``` 
