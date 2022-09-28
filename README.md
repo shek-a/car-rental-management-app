@@ -72,7 +72,7 @@ POST http://localhost:8082/graphQL
 mutation createCar($car: CreateCarInput!) {
   createCar(input: $car) {
     carId
-	model
+	  model
     type
     costPerDay
   }
@@ -101,7 +101,7 @@ query fetchAllCars {
     model
     type
     leasedDate
-	returnDate
+	  returnDate
     customer {
       customerId
       firstName
@@ -122,9 +122,9 @@ mutation rentCarToCustomer($carId: ID!, $customerId: ID!) {
     lastName
     email
     cars {
-		carId
-        make
-        model
+		  carId
+      make
+      model
     }
   }
 }
@@ -147,9 +147,9 @@ mutation customerReturnsCar($carId: ID!, $customerId: ID!) {
     firstName
     email
     cars {
-		carId
-        make
-        model
+		  carId
+      make
+      model
     }
   }
 }
