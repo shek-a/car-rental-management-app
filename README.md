@@ -145,8 +145,8 @@ POST http://localhost:8082/graphQL
 mutation customerReturnsCar($carId: ID!, $customerId: ID!) {
   removeCarFromCustomer(carId: $carId, customerId: $customerId) {
     customerId
-	age
     firstName
+    lastName
     email
     cars {
       carId
