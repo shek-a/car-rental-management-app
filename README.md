@@ -60,9 +60,9 @@ Query Variables
   "customer": {
     "customerId": "1",
     "firstName": "Roger",
-    "lastName": "Nadal",
-    "email": "Rafael.Nadal@gmail.com",
-    "age": 35
+    "lastName": "Federer",
+    "email": "Roger.Federer@gmail.com",
+    "age": 40
   }
 }
 ```
