@@ -1,6 +1,6 @@
 # Car Rental Management Application
 
-The Car Rental Management Application is a Node application which allows car rental companies to manage customers and car data via a 
+The Car Rental Management Application is a Node application which allows car rental companies to manage customer and car data via a 
 GraphQL API
 
 ## Requirements
