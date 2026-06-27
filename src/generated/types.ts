@@ -51,13 +51,19 @@ export type CreateCustomerInput = {
 
 export type Customer = {
   __typename?: 'Customer';
-  age: Scalars['Int'];
+  age?: Maybe<Scalars['Int']>;
   cars?: Maybe<Array<Car>>;
   customerId: Scalars['ID'];
   email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  role: CustomerRole;
 };
+
+export enum CustomerRole {
+  Administrator = 'ADMINISTRATOR',
+  Customer = 'CUSTOMER'
+}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -66,6 +72,7 @@ export type Mutation = {
   createCustomer?: Maybe<Customer>;
   deleteCar?: Maybe<Car>;
   deleteCustomer?: Maybe<Customer>;
+  grantAdministratorRole?: Maybe<Customer>;
   removeCarFromCustomer?: Maybe<Customer>;
   updateCar?: Maybe<Car>;
   updateCustomer?: Maybe<Customer>;
@@ -94,6 +101,11 @@ export type MutationDeleteCarArgs = {
 
 
 export type MutationDeleteCustomerArgs = {
+  customerId: Scalars['ID'];
+};
+
+
+export type MutationGrantAdministratorRoleArgs = {
   customerId: Scalars['ID'];
 };
 

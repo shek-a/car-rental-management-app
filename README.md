@@ -162,3 +162,38 @@ Query Variables
   "carId": 3
 }
 ```
+
+## Authentication & Authorization
+
+Sign-in is delegated to Google via [Better Auth](https://better-auth.com) — the platform stores no
+passwords. See `specs/001-user-authentication/` for the full spec, plan, and contracts.
+
+### Required environment variables (secrets)
+
+Set these before `yarn start` (never commit them):
+
+```sh
+export BETTER_AUTH_SECRET=...     # random 32+ char string
+export GOOGLE_CLIENT_ID=...       # Google OAuth 2.0 Web client id
+export GOOGLE_CLIENT_SECRET=...   # Google OAuth 2.0 Web client secret
+```
+
+Create the OAuth client in the Google Cloud Console and register
+`http://localhost:8082/api/auth/callback/google` as an authorized redirect URI. Non-secret auth
+config (base URL, seed admin email) lives in `src/config/config.ts`.
+
+### Signing in (headless API client)
+
+1. Open `http://localhost:8082/api/auth/sign-in/social?provider=google` in a browser and complete
+   the Google consent screen (the browser step is inherent to OAuth).
+2. Better Auth issues a session; the token is returned in the `set-auth-token` response header.
+3. Send that token on GraphQL requests as `Authorization: Bearer <token>`.
+
+On first sign-in a `Customer` is provisioned for the Google identity; repeat sign-ins reuse it.
+
+### Roles
+
+- **Customer** — may rent/return cars against their own account.
+- **Administrator** — may create/delete cars and grant the administrator role to others via the
+  `grantAdministratorRole` mutation. The seed admin (`andrew.shek23@gmail.com`) is an administrator
+  on sign-in; reading the car catalogue is public.

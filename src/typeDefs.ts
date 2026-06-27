@@ -24,14 +24,21 @@ export const typeDefs = gql`
     deleteCar(carId: ID!): Car
     addCarToCustomer(carId: ID!, customerId: ID!): Customer
     removeCarFromCustomer(carId: ID!, customerId: ID!): Customer
+    grantAdministratorRole(customerId: ID!): Customer
+  }
+
+  enum CustomerRole {
+    CUSTOMER
+    ADMINISTRATOR
   }
 
   type Customer {
     customerId: ID!
-    firstName: String!
-    lastName: String!
+    firstName: String
+    lastName: String
     email: String!
-    age: Int!
+    age: Int
+    role: CustomerRole!
     cars: [Car!]
   }
 
