@@ -1,26 +1,27 @@
 <!--
   Sync Impact Report
-  Version: 1.0.0 → 1.1.0 (MINOR — added skill references section and inline skill callouts)
+  Version: 1.1.0 → 1.1.1 (PATCH — record TypeScript version bump in Technology Stack)
 
-  Modified Principles:
-  - I. Domain-Driven Design — added skill reference callout
-  - III. Test-First (NON-NEGOTIABLE) — added skill reference callouts (TDD + integration testing)
-  - IV. Clean Code & TypeScript Discipline — added skill reference callouts (coding standards + TypeScript)
-  - V. Layered Architecture & Simplicity — no change
+  Modified Principles: None
 
-  Added Sections:
-  - "Skill References" sub-section in Development Workflow
+  Modified Sections:
+  - Technology Stack — Runtime row now records TypeScript 5.x (5.9), upgraded from ~4.8 as
+    required by Better Auth's type declarations (feature 001-user-authentication)
 
+  Added Sections: None
   Removed Sections: None
 
   Templates reviewed:
-  - .specify/templates/plan-template.md — Constitution Check is feature-agnostic ✅ no update needed
-  - .specify/templates/spec-template.md — feature-agnostic structure ✅ no update needed
-  - .specify/templates/tasks-template.md — feature-agnostic structure ✅ no update needed
+  - .specify/templates/plan-template.md — feature-agnostic ✅ no update needed
+  - .specify/templates/spec-template.md — feature-agnostic ✅ no update needed
+  - .specify/templates/tasks-template.md — feature-agnostic ✅ no update needed
   - .specify/templates/commands/ — directory does not exist ✅ no update needed
-  - CLAUDE.md — already uses @-includes for the same skill files ✅ no update needed
+  - CLAUDE.md — no TypeScript version pinned; no update needed ✅
 
   Deferred TODOs: None
+
+  --- Prior amendment (1.0.0 → 1.1.0, MINOR): added skill references section and inline skill
+      callouts to principles I, III, IV; added the "Skill References" sub-section. ---
 -->
 
 # Car Rental Management Constitution
@@ -130,7 +131,7 @@ independently testable without spinning up a GraphQL server.
 
 | Concern | Technology |
 |---------|-----------|
-| Runtime | Node.js + TypeScript (strict mode) |
+| Runtime | Node.js + TypeScript 5.x (strict mode) — upgraded from ~4.8, required by Better Auth's type declarations |
 | API layer | Apollo GraphQL, schema-first via `src/typeDefs.ts` |
 | Transport | Express on port `8082` |
 | Persistence | MongoDB (`mongodb://localhost:27017`) via Mongoose (`src/model/`) |
@@ -183,4 +184,4 @@ This constitution supersedes all other practices and documentation when conflict
 - `CLAUDE.md` is the runtime development guidance file and MUST remain synchronized
   with this constitution
 
-**Version**: 1.1.0 | **Ratified**: 2026-06-27 | **Last Amended**: 2026-06-27
+**Version**: 1.1.1 | **Ratified**: 2026-06-27 | **Last Amended**: 2026-06-27
