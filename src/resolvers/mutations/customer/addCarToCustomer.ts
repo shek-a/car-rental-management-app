@@ -2,11 +2,16 @@ import { MutationAddCarToCustomerArgs } from "@/generated/types";
 import { Customer } from "@/generated/types";
 import { CustomerModel } from "@/model/customer";
 import { CarModel } from "@/model/car";
+import { AuthContext, requireOwnAccount } from "@/auth/authorization";
 
 export const addCarToCustomer = async (
-  _: any,
-  { carId, customerId }: MutationAddCarToCustomerArgs
+  _: unknown,
+  { carId, customerId }: MutationAddCarToCustomerArgs,
+  context: AuthContext
 ): Promise<Customer> => {
+  // Renting is restricted to the authenticated customer acting on their own account (FR-010).
+  requireOwnAccount(context, customerId);
+
   const car = await CarModel.findOne({ carId });
 
   if (!car) {

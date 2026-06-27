@@ -1,10 +1,14 @@
 import { Car, CreateCarInput } from '@/generated/types';
 import { CarModel } from '@/model/car';
+import { AuthContext, requireAdministrator } from '@/auth/authorization';
 
 
 export const createCar = async(
-  _: any, { input }: { input: CreateCarInput }
+  _: unknown, { input }: { input: CreateCarInput }, context: AuthContext
 ): Promise<Car> => {
+    // Fleet management is restricted to administrators (FR-009).
+    requireAdministrator(context);
+
     const carId = input.carId;
     const car = await CarModel.findOne({ carId });
 

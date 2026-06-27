@@ -5,7 +5,8 @@ import {
   deleteCustomer,
   updateCustomer,
   addCarToCustomer,
-  removeCarFromCustomer
+  removeCarFromCustomer,
+  grantAdministratorRole
 } from "./resolvers/mutations/customer";
 import {
   createCar,
@@ -30,7 +31,8 @@ export const resolvers = {
     deleteCar,
     updateCar,
     addCarToCustomer,
-    removeCarFromCustomer
+    removeCarFromCustomer,
+    grantAdministratorRole
   },
   Customer: {
     cars: fetchCarsByCustomer

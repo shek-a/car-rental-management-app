@@ -1,2 +1,23 @@
 # Node modules
 node_modules
+
+# Secrets / environment — never commit auth credentials
+.env
+.env.*
+
+# Build output
+dist
+build
+
+# Logs and OS noise
+*.log
+.DS_Store
+
+# IDE
+.idea/
+
+# Claude Code - local machine settings only
+.claude/settings.local.json
+
+# Spec Kit - ignore session state only
+.specify/memory/session-*.md
