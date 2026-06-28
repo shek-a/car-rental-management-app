@@ -197,3 +197,60 @@ On first sign-in a `Customer` is provisioned for the Google identity; repeat sig
 - **Administrator** — may create/delete cars and grant the administrator role to others via the
   `grantAdministratorRole` mutation. The seed admin (`andrew.shek23@gmail.com`) is an administrator
   on sign-in; reading the car catalogue is public.
+
+## Car Photos
+
+Each car can have a single photo, managed by administrators and viewable publicly. Image bytes are
+held behind a platform-agnostic storage port; the bundled adapter stores them on the **local
+filesystem**, so the feature runs with no cloud account (ideal for demos). See
+`specs/002-car-photo-storage/` for the full spec, plan, and contracts.
+
+### Storage configuration (local)
+
+Non-secret config in `src/config/config.ts`:
+
+- `PHOTO_STORAGE_DIR` (default `./.photo-storage`) — where image files are written (git-ignored)
+- `PHOTO_MAX_BYTES` (default 5 MB) — per-photo size limit
+- `PHOTO_PATH` (default `/photos`) — public serving route prefix
+
+To use a different storage backend later (e.g. S3/GCS), implement the `CarPhotoStorage` port in
+`src/storage/` and select it in `carPhotoStorageProvider` — no other code changes.
+
+### Adding a photo (administrators only)
+
+Send the image as base64 with its content type. The server re-verifies the real format from the
+bytes (JPEG/PNG/WebP) and the size before storing.
+
+```
+POST http://localhost:8082/graphQL
+Authorization: Bearer <admin token>
+
+mutation addPhoto($carId: ID!, $input: AddCarPhotoInput!) {
+  addCarPhoto(carId: $carId, input: $input) {
+    carId
+    photo { url contentType }
+  }
+}
+
+Query Variables
+{
+  "carId": "1",
+  "input": { "data": "<base64-encoded image>", "contentType": "image/jpeg" }
+}
+```
+
+Adding a photo to a car that already has one replaces it. `removeCarPhoto(carId)` removes it; both
+require an administrator.
+
+### Viewing a photo (public)
+
+Query the car for its photo URL, then fetch the bytes — no authentication required:
+
+```
+query { car(carId: "1") { photo { url contentType } } }
+
+# then GET the returned url, e.g.:
+GET http://localhost:8082/photos/1
+```
+
+A car with no photo returns `photo: null` (not an error). Deleting a car also deletes its photo.

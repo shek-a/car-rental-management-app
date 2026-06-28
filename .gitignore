@@ -13,6 +13,9 @@ build
 *.log
 .DS_Store
 
+# Local car photo storage (demo uploads — not committed)
+.photo-storage/
+
 # IDE
 .idea/
 

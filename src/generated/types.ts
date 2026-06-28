@@ -13,6 +13,11 @@ export type Scalars = {
   Date: any;
 };
 
+export type AddCarPhotoInput = {
+  contentType: Scalars['String'];
+  data: Scalars['String'];
+};
+
 export type Car = {
   __typename?: 'Car';
   carId: Scalars['ID'];
@@ -21,8 +26,15 @@ export type Car = {
   leasedDate?: Maybe<Scalars['Date']>;
   make: Scalars['String'];
   model: Scalars['String'];
+  photo?: Maybe<CarPhoto>;
   returnDate?: Maybe<Scalars['Date']>;
   type: CarType;
+};
+
+export type CarPhoto = {
+  __typename?: 'CarPhoto';
+  contentType: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export enum CarType {
@@ -67,6 +79,7 @@ export enum CustomerRole {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addCarPhoto?: Maybe<Car>;
   addCarToCustomer?: Maybe<Customer>;
   createCar?: Maybe<Car>;
   createCustomer?: Maybe<Customer>;
@@ -74,8 +87,15 @@ export type Mutation = {
   deleteCustomer?: Maybe<Customer>;
   grantAdministratorRole?: Maybe<Customer>;
   removeCarFromCustomer?: Maybe<Customer>;
+  removeCarPhoto?: Maybe<Car>;
   updateCar?: Maybe<Car>;
   updateCustomer?: Maybe<Customer>;
+};
+
+
+export type MutationAddCarPhotoArgs = {
+  carId: Scalars['ID'];
+  input: AddCarPhotoInput;
 };
 
 
@@ -113,6 +133,11 @@ export type MutationGrantAdministratorRoleArgs = {
 export type MutationRemoveCarFromCustomerArgs = {
   carId: Scalars['ID'];
   customerId: Scalars['ID'];
+};
+
+
+export type MutationRemoveCarPhotoArgs = {
+  carId: Scalars['ID'];
 };
 
 
