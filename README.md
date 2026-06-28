@@ -43,7 +43,13 @@ Use any API client to call the application's GraphQL API.
 A handy one is the Chrome Plugin, 'GraphQL Playground for Chrome'
 https://chrome.google.com/webstore/detail/graphql-playground-for-ch/kjhjcgclphafojaeeickcokfbhlegecd?hl=en 
 
-Below are some of the sample requests:
+> **Building a web app against this API?** See the
+> **[Frontend Integration Guide](docs/frontend-integration/README.md)** — authentication, the
+> authorization matrix, a full API reference, photos, error handling, recipes, and a
+> [`schema.graphql`](docs/frontend-integration/schema.graphql) for client codegen.
+
+Below are some of the sample requests (note: several operations now require an
+`Authorization: Bearer <token>` header — see the guide above):
 
 #### Creating a customer
 ``` 
