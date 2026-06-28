@@ -12,9 +12,12 @@ import {
   createCar,
   deleteCar,
   updateCar,
+  addCarPhoto,
+  removeCarPhoto,
 } from "./resolvers/mutations/car";
 import { fetchCarsByCustomer } from "./resolvers/customer/fetchCarsByCustomer";
 import { fetchCustomerByCar } from "./resolvers/car/fetchCustomerByCar";
+import { fetchPhotoByCar } from "./resolvers/car/fetchPhotoByCar";
 
 export const resolvers = {
   Query: {
@@ -32,12 +35,15 @@ export const resolvers = {
     updateCar,
     addCarToCustomer,
     removeCarFromCustomer,
-    grantAdministratorRole
+    grantAdministratorRole,
+    addCarPhoto,
+    removeCarPhoto
   },
   Customer: {
     cars: fetchCarsByCustomer
   },
   Car: {
-    customer: fetchCustomerByCar
+    customer: fetchCustomerByCar,
+    photo: fetchPhotoByCar
   }
 };

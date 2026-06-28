@@ -25,6 +25,18 @@ export const typeDefs = gql`
     addCarToCustomer(carId: ID!, customerId: ID!): Customer
     removeCarFromCustomer(carId: ID!, customerId: ID!): Customer
     grantAdministratorRole(customerId: ID!): Customer
+    addCarPhoto(carId: ID!, input: AddCarPhotoInput!): Car
+    removeCarPhoto(carId: ID!): Car
+  }
+
+  type CarPhoto {
+    url: String!
+    contentType: String!
+  }
+
+  input AddCarPhotoInput {
+    data: String!
+    contentType: String!
   }
 
   enum CustomerRole {
@@ -51,6 +63,7 @@ export const typeDefs = gql`
     leasedDate: Date
     returnDate: Date
     customer: Customer
+    photo: CarPhoto
   }
 
   enum CarType {

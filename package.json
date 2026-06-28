@@ -24,7 +24,7 @@
     "@graphql-codegen/typescript-mongodb": "^2.4.3",
     "@types/jest": "^29.0.3",
     "@types/mongoose": "^5.11.97",
-    "@types/node": "^18.7.18",
+    "@types/node": "^20",
     "babel-jest": "^29.0.3",
     "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^10.6.0",

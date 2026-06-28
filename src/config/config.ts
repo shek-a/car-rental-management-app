@@ -8,3 +8,8 @@ export const CAR_MONGO_DB_COLLECTION = 'Car';
 export const AUTH_PATH = '/api/auth';
 export const AUTH_BASE_URL = 'http://localhost:8082';
 export const SEED_ADMIN_EMAIL = 'andrew.shek23@gmail.com';
+
+// Car photo storage (all non-secret — local storage needs no credentials)
+export const PHOTO_PATH = '/photos';
+export const PHOTO_STORAGE_DIR = './.photo-storage';
+export const PHOTO_MAX_BYTES = 5 * 1024 * 1024;
