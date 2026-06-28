@@ -8,7 +8,8 @@
     "test": "jest",
     "test:integration": "jest --config jest.integration.config.js",
     "lint": "eslint .",
-    "generate-graphql-types": "graphql-codegen --config codegen.yml"
+    "generate-graphql-types": "graphql-codegen --config codegen.yml",
+    "export-schema": "babel-node scripts/export-schema.ts --extensions '.ts'"
   },
   "license": "MIT",
   "devDependencies": {
