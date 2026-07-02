@@ -33,7 +33,7 @@ signed-in customer's own id.
 | `updateCustomer` | No | ⚠️ **Unprotected** (see below) |
 | `deleteCustomer` | No | ⚠️ **Unprotected** (see below) |
 | `createCar` | Yes | **Administrator** only |
-| `updateCar` | No | ⚠️ **Unprotected** (see below) |
+| `updateCar` | Yes | **Administrator** only |
 | `deleteCar` | Yes | **Administrator** only (also deletes the car's photo) |
 | `addCarToCustomer` (rent) | Yes | **Own account** only |
 | `removeCarFromCustomer` (return) | Yes | **Own account** only |
@@ -49,8 +49,9 @@ When a request violates a rule, the API returns an error — see [errors.md](./e
 
 ## ⚠️ Unprotected mutations (known gap)
 
-`updateCustomer`, `deleteCustomer`, and `updateCar` currently have **no authorization checks** — any
-caller (even unauthenticated) can invoke them. This is a known backend gap, not intended behavior.
+`updateCustomer` and `deleteCustomer` currently have **no authorization checks** — any caller (even
+unauthenticated) can invoke them. This is a known backend gap, not intended behavior. (`updateCar` is
+now administrator-only.)
 
 For now:
 - Do not expose these as if they were safe, and don't rely on the backend to reject misuse.

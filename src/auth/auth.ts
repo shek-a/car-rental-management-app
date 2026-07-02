@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { bearer } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
-import { AUTH_BASE_URL, MONGODB_CONNECTION_URI } from "@/config/config";
+import { ALLOWED_ORIGINS, AUTH_BASE_URL, MONGODB_CONNECTION_URI } from "@/config/config";
 import {
   getBetterAuthSecret,
   getGoogleClientId,
@@ -16,6 +16,8 @@ const authDbClient = new MongoClient(MONGODB_CONNECTION_URI);
 
 export const auth = betterAuth({
   baseURL: AUTH_BASE_URL,
+  // Browser origins (different from the API) allowed to make authenticated requests.
+  trustedOrigins: ALLOWED_ORIGINS,
   secret: getBetterAuthSecret(),
   database: mongodbAdapter(authDbClient.db()),
   socialProviders: {

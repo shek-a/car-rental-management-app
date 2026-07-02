@@ -35,3 +35,5 @@ it("should throw an error when the provided car id already exsists", () => {
     expect(createCar({}, { input: createNewCar("1") }, adminContext)).
         rejects.toThrow("Car id 1 already exists")
 });
+// Detail-field persistence (plate/year/seats/transmission/fuel/colour) is verified end-to-end
+// against real Mongo in test/integration/rentalLifecycle.integration.test.ts.

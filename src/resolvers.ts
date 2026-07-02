@@ -18,6 +18,8 @@ import {
 import { fetchCarsByCustomer } from "./resolvers/customer/fetchCarsByCustomer";
 import { fetchCustomerByCar } from "./resolvers/car/fetchCustomerByCar";
 import { fetchPhotoByCar } from "./resolvers/car/fetchPhotoByCar";
+import { fetchStatusByCar } from "./resolvers/car/fetchStatusByCar";
+import { fetchRentalPeriodByCar } from "./resolvers/car/fetchRentalPeriodByCar";
 
 export const resolvers = {
   Query: {
@@ -44,6 +46,8 @@ export const resolvers = {
   },
   Car: {
     customer: fetchCustomerByCar,
-    photo: fetchPhotoByCar
+    photo: fetchPhotoByCar,
+    status: fetchStatusByCar,
+    rentalPeriod: fetchRentalPeriodByCar
   }
 };

@@ -108,14 +108,14 @@ with no `Authorization` header. Auth is only required for the protected operatio
 
 ## Prerequisites (backend team)
 
-A deployed browser app needs these on the backend before it will work — flag them to the backend
-team; the frontend cannot work around them:
+Configure these on the backend for your environment:
 
 - **OAuth redirect URI:** the Google OAuth client must register the callback
-  `http://<api-origin>/api/auth/callback/google` (currently `http://localhost:8082/...`).
-- **CORS + `trustedOrigins`:** the auth and photo routes are not yet configured to accept requests
-  from a separate web origin; cross-origin cookie sessions won't work until they are.
-- **Base URL:** `AUTH_BASE_URL` is hardcoded to `http://localhost:8082`; a real deployment needs it
-  pointed at the deployed API origin.
+  `http://<api-origin>/api/auth/callback/google` (default `http://localhost:8082/...`).
+- **CORS + `trustedOrigins`:** ✅ configured. Set `ALLOWED_ORIGINS` (comma-separated env var) to your
+  web app's origin(s); it drives both the CORS middleware and Better Auth's `trustedOrigins`. Default
+  is `http://localhost:3000,http://localhost:8082`.
+- **Base URL:** set `AUTH_BASE_URL` (env var) to the deployed API origin; it defaults to
+  `http://localhost:8082` and is used for photo URLs and the sign-in flow.
 - **Server secrets:** `BETTER_AUTH_SECRET`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` must be set on
   the server (these are backend concerns, not exposed to the frontend).
