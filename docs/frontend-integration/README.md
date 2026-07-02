@@ -42,13 +42,12 @@ This backend is currently set up for **local development**. Before a deployed br
 different origin can use it, the **backend team** must address the following — they are not things the
 frontend can work around:
 
-- **Cross-origin (CORS):** the GraphQL endpoint allows cross-origin requests by default, but the auth
-  (`/api/auth/*`) and photo (`/photos/*`) routes, and Better Auth's `trustedOrigins`, are **not**
-  configured for a separate web origin. Cookie-based sessions across origins will not work until this
-  is set up. See [authentication.md](./authentication.md#prerequisites-backend-team).
-- **Hardcoded base URL:** the OAuth callback and `AUTH_BASE_URL` are fixed to
-  `http://localhost:8082`. Deploying elsewhere requires a backend config change.
-- **Unprotected mutations:** `updateCustomer`, `deleteCustomer`, and `updateCar` currently have **no
+- **Cross-origin (CORS):** ✅ configured. All routes (`/graphQL`, `/api/auth/*`, `/photos/*`) accept
+  requests from the origins in `ALLOWED_ORIGINS` (env, default `http://localhost:3000`), and Better
+  Auth's `trustedOrigins` matches. Point `ALLOWED_ORIGINS` at your web app's origin for other setups.
+- **Base URL:** `AUTH_BASE_URL` is configurable via the environment (default `http://localhost:8082`);
+  photo URLs and the sign-in flow use it. Set it to your deployed API origin in production.
+- **Unprotected mutations:** `updateCustomer` and `deleteCustomer` currently have **no
   authorization checks** — any caller can invoke them. Do not rely on them being safe; see the
   matrix in [authorization.md](./authorization.md).
 - **Photos:** one photo per car; JPEG/PNG/WebP only; max 5 MB; bytes are served from a local

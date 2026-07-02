@@ -4,6 +4,7 @@ import {
   Customer,
   CustomerRole,
   CreateCustomerInput,
+  FleetStatus,
 } from "@/generated/types";
 
 export const createCustomerInput = (
@@ -46,6 +47,30 @@ export const createNewCar = (carId: string, customer?: Customer): Car => {
     model: "Corolla",
     type: CarType.Sedan,
     costPerDay: 60.5,
+    plate: `ROVE-${carId}`,
+    year: 2025,
+    seats: 5,
+    transmission: "Automatic",
+    fuel: "Petrol",
+    colour: "Pearl White",
+    // status is derived by the Car.status field resolver; a fixture placeholder for the required field.
+    status: FleetStatus.Available,
     customer,
+  };
+};
+
+// A car fixture that is currently rented — carries a lease/return date (the persisted backing for a
+// RentalPeriod). Status is a placeholder; the real value is derived by the field resolver.
+export const createRentedCar = (
+  carId: string,
+  customer: Customer,
+  leaseDate: Date,
+  dueBackDate: Date
+): Car => {
+  return {
+    ...createNewCar(carId, customer),
+    leasedDate: leaseDate,
+    returnDate: dueBackDate,
+    status: FleetStatus.Leased,
   };
 };

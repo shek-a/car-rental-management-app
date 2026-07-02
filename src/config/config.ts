@@ -6,8 +6,19 @@ export const CAR_MONGO_DB_COLLECTION = 'Car';
 
 // Authentication (non-secret config only — secrets live in src/config/secrets.ts)
 export const AUTH_PATH = '/api/auth';
-export const AUTH_BASE_URL = 'http://localhost:8082';
+// Public base address of the API. Configurable per environment (env override), defaulting to local
+// dev so no .env is needed. Used for photo URLs and the sign-in flow.
+export const AUTH_BASE_URL = process.env['AUTH_BASE_URL'] ?? 'http://localhost:8082';
 export const SEED_ADMIN_EMAIL = 'andrew.shek23@gmail.com';
+
+// Browser origins allowed to call the API (CORS + Better Auth trustedOrigins). Comma-separated env
+// override; the defaults cover the local web app + the API itself.
+export const ALLOWED_ORIGINS = (
+  process.env['ALLOWED_ORIGINS'] ?? 'http://localhost:3000,http://localhost:8082'
+)
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter((origin) => origin.length > 0);
 
 // Car photo storage (all non-secret — local storage needs no credentials)
 export const PHOTO_PATH = '/photos';

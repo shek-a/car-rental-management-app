@@ -22,7 +22,7 @@ export const typeDefs = gql`
     createCar(input: CreateCarInput!): Car
     updateCar(carId: ID!, input: UpdateCarInput!): Car
     deleteCar(carId: ID!): Car
-    addCarToCustomer(carId: ID!, customerId: ID!): Customer
+    addCarToCustomer(carId: ID!, customerId: ID!, dueBackDate: Date!): Customer
     removeCarFromCustomer(carId: ID!, customerId: ID!): Customer
     grantAdministratorRole(customerId: ID!): Customer
     addCarPhoto(carId: ID!, input: AddCarPhotoInput!): Car
@@ -54,6 +54,18 @@ export const typeDefs = gql`
     cars: [Car!]
   }
 
+  enum FleetStatus {
+    AVAILABLE
+    LEASED
+    DUE_SOON
+    OVERDUE
+  }
+
+  type RentalPeriod {
+    leaseDate: Date!
+    dueBackDate: Date!
+  }
+
   type Car {
     carId: ID!
     make: String!
@@ -64,6 +76,14 @@ export const typeDefs = gql`
     returnDate: Date
     customer: Customer
     photo: CarPhoto
+    plate: String
+    year: Int
+    seats: Int
+    transmission: String
+    fuel: String
+    colour: String
+    rentalPeriod: RentalPeriod
+    status: FleetStatus!
   }
 
   enum CarType {
@@ -95,6 +115,12 @@ export const typeDefs = gql`
     model: String!
     type: CarType!
     costPerDay: Float!
+    plate: String
+    year: Int
+    seats: Int
+    transmission: String
+    fuel: String
+    colour: String
   }
 
   input UpdateCarInput {
@@ -104,5 +130,11 @@ export const typeDefs = gql`
     costPerDay: Float
     leasedDate: Date
     returnDate: Date
+    plate: String
+    year: Int
+    seats: Int
+    transmission: String
+    fuel: String
+    colour: String
   }
 `;

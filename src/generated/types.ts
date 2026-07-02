@@ -21,14 +21,22 @@ export type AddCarPhotoInput = {
 export type Car = {
   __typename?: 'Car';
   carId: Scalars['ID'];
+  colour?: Maybe<Scalars['String']>;
   costPerDay: Scalars['Float'];
   customer?: Maybe<Customer>;
+  fuel?: Maybe<Scalars['String']>;
   leasedDate?: Maybe<Scalars['Date']>;
   make: Scalars['String'];
   model: Scalars['String'];
   photo?: Maybe<CarPhoto>;
+  plate?: Maybe<Scalars['String']>;
+  rentalPeriod?: Maybe<RentalPeriod>;
   returnDate?: Maybe<Scalars['Date']>;
+  seats?: Maybe<Scalars['Int']>;
+  status: FleetStatus;
+  transmission?: Maybe<Scalars['String']>;
   type: CarType;
+  year?: Maybe<Scalars['Int']>;
 };
 
 export type CarPhoto = {
@@ -47,10 +55,16 @@ export enum CarType {
 
 export type CreateCarInput = {
   carId: Scalars['ID'];
+  colour?: InputMaybe<Scalars['String']>;
   costPerDay: Scalars['Float'];
+  fuel?: InputMaybe<Scalars['String']>;
   make: Scalars['String'];
   model: Scalars['String'];
+  plate?: InputMaybe<Scalars['String']>;
+  seats?: InputMaybe<Scalars['Int']>;
+  transmission?: InputMaybe<Scalars['String']>;
   type: CarType;
+  year?: InputMaybe<Scalars['Int']>;
 };
 
 export type CreateCustomerInput = {
@@ -75,6 +89,13 @@ export type Customer = {
 export enum CustomerRole {
   Administrator = 'ADMINISTRATOR',
   Customer = 'CUSTOMER'
+}
+
+export enum FleetStatus {
+  Available = 'AVAILABLE',
+  DueSoon = 'DUE_SOON',
+  Leased = 'LEASED',
+  Overdue = 'OVERDUE'
 }
 
 export type Mutation = {
@@ -102,6 +123,7 @@ export type MutationAddCarPhotoArgs = {
 export type MutationAddCarToCustomerArgs = {
   carId: Scalars['ID'];
   customerId: Scalars['ID'];
+  dueBackDate: Scalars['Date'];
 };
 
 
@@ -170,13 +192,25 @@ export type QueryCustomerArgs = {
   customerId: Scalars['ID'];
 };
 
+export type RentalPeriod = {
+  __typename?: 'RentalPeriod';
+  dueBackDate: Scalars['Date'];
+  leaseDate: Scalars['Date'];
+};
+
 export type UpdateCarInput = {
+  colour?: InputMaybe<Scalars['String']>;
   costPerDay?: InputMaybe<Scalars['Float']>;
+  fuel?: InputMaybe<Scalars['String']>;
   leasedDate?: InputMaybe<Scalars['Date']>;
   make?: InputMaybe<Scalars['String']>;
   model?: InputMaybe<Scalars['String']>;
+  plate?: InputMaybe<Scalars['String']>;
   returnDate?: InputMaybe<Scalars['Date']>;
+  seats?: InputMaybe<Scalars['Int']>;
+  transmission?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<CarType>;
+  year?: InputMaybe<Scalars['Int']>;
 };
 
 export type UpdateCustomerInput = {

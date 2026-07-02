@@ -13,10 +13,10 @@ export interface CarPhotoMetadata {
   addedAt: Date;
 }
 
-// Persistence shape of a car: the GraphQL Car plus the stored photo metadata. The metadata is held
-// under `photoMetadata` so it stays distinct from the client-facing `Car.photo` projection
-// ({ url, contentType }), which is derived by the Car.photo field resolver and never persisted.
-export interface CarEntity extends Car {
+// Persistence shape of a car. Omits the GraphQL fields that are *derived* and never stored:
+// `status` (computed from the rental period) and `rentalPeriod` (projected from leasedDate/returnDate).
+// Adds `photoMetadata`, the stored backing for the client-facing `Car.photo` projection.
+export interface CarEntity extends Omit<Car, "status" | "rentalPeriod"> {
   photoMetadata?: CarPhotoMetadata;
 }
 
@@ -40,6 +40,12 @@ export const carSchema = new Schema<CarEntity>({
   costPerDay: Number,
   leasedDate: Date,
   returnDate: Date,
+  plate: String,
+  year: Number,
+  seats: Number,
+  transmission: String,
+  fuel: String,
+  colour: String,
   customer: {
     type: Schema.Types.ObjectId,
     ref: CUSTOMER_MONGO_DB_COLLECTION,

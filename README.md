@@ -127,8 +127,8 @@ query fetchAllCars {
 ``` 
 POST http://localhost:8082/graphQL
 
-mutation rentCarToCustomer($carId: ID!, $customerId: ID!) {
-  addCarToCustomer(carId: $carId, customerId: $customerId) {
+mutation rentCarToCustomer($carId: ID!, $customerId: ID!, $dueBackDate: Date!) {
+  addCarToCustomer(carId: $carId, customerId: $customerId, dueBackDate: $dueBackDate) {
     customerId
     firstName
     lastName
@@ -137,6 +137,8 @@ mutation rentCarToCustomer($carId: ID!, $customerId: ID!) {
       carId
       make
       model
+      status
+      rentalPeriod { dueBackDate }
     }
   }
 }
@@ -144,7 +146,8 @@ mutation rentCarToCustomer($carId: ID!, $customerId: ID!) {
 Query Variables
 {
   "customerId": 2,
-  "carId": 3
+  "carId": 3,
+  "dueBackDate": "2026-07-15T09:00:00.000Z"
 }
 ```
 

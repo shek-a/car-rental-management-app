@@ -1,65 +1,43 @@
 import { removeCarFromCustomer } from "./removeCarFromCustomer";
-import { CarModel } from "@/model/car";
-import { CustomerModel } from "@/model/customer";
-import { createNewCar, createNewCustomer } from "@/testing/utilities";
+import * as carRentalService from "@/domain/rental/carRentalService";
+import { createNewCustomer } from "@/testing/utilities";
 import { AuthenticationError, AuthorizationError } from "@/auth/errors";
 
-// A context for a signed-in customer acting on their own account.
-const ownerContext = (customerId: string) => ({
-  currentCustomer: createNewCustomer(customerId),
-});
+jest.mock("@/domain/rental/carRentalService");
 
-it("should reject an unauthenticated request", () => {
-  expect(
-    removeCarFromCustomer({}, { carId: "1", customerId: "1" }, { currentCustomer: null })
-  ).rejects.toThrow(AuthenticationError);
-});
+const service = carRentalService as jest.Mocked<typeof carRentalService>;
 
-it("should reject returning against another customer's account", () => {
-  expect(
-    removeCarFromCustomer({}, { carId: "1", customerId: "1" }, ownerContext("2"))
-  ).rejects.toThrow(AuthorizationError);
-});
+describe("removeCarFromCustomer resolver", () => {
+  beforeEach(() => jest.clearAllMocks());
 
-it("should throw an error when the provided car id does not exsist", () => {
-  // @ts-ignore
-  jest.spyOn(CarModel, "findOne").mockReturnValue(null);
-
-  expect(
-    removeCarFromCustomer({}, { carId: "1", customerId: "1" }, ownerContext("1"))
-  ).rejects.toThrow("Car id 1 does not exist");
-});
-
-it("should throw an error when the provided customer id does not exsist", () => {
-  // @ts-ignore
-  jest.spyOn(CarModel, "findOne").mockReturnValue(createNewCar("1"));
-
-  // @ts-ignore
-  jest.spyOn(CustomerModel, "findOne").mockReturnValueOnce({
-    // @ts-ignore
-    populate: jest.fn().mockReturnValueOnce(null),
+  it("rejects an unauthenticated request", async () => {
+    await expect(
+      removeCarFromCustomer({}, { carId: "1", customerId: "1" }, { currentCustomer: null })
+    ).rejects.toThrow(AuthenticationError);
+    expect(service.returnCarFromCustomer).not.toHaveBeenCalled();
   });
 
-  expect(
-    removeCarFromCustomer({}, { carId: "1", customerId: "1" }, ownerContext("1"))
-  ).rejects.toThrow("Customer id 1 does not exist");
-});
-
-it("should throw an error when the provided car id belongs to another customer", () => {
-  // @ts-ignore
-  jest.spyOn(CarModel, "findOne").mockReturnValue(createNewCar("1"));
-
-  // @ts-ignore
-  jest.spyOn(CustomerModel, "findOne").mockReturnValueOnce({
-    // @ts-ignore
-    populate: jest
-      .fn()
-      .mockReturnValueOnce(
-        Promise.resolve(createNewCustomer("1", [createNewCar("1")]))
-      ),
+  it("rejects returning against another customer's account", async () => {
+    await expect(
+      removeCarFromCustomer(
+        {},
+        { carId: "1", customerId: "1" },
+        { currentCustomer: createNewCustomer("2") }
+      )
+    ).rejects.toThrow(AuthorizationError);
+    expect(service.returnCarFromCustomer).not.toHaveBeenCalled();
   });
 
-  expect(
-    removeCarFromCustomer({}, { carId: "1", customerId: "1" }, ownerContext("1"))
-  ).rejects.toThrow("car id 1 does not belong to a customer");
+  it("delegates to the rental service for the customer's own account", async () => {
+    service.returnCarFromCustomer.mockResolvedValue(createNewCustomer("1"));
+
+    const result = await removeCarFromCustomer(
+      {},
+      { carId: "1", customerId: "1" },
+      { currentCustomer: createNewCustomer("1") }
+    );
+
+    expect(service.returnCarFromCustomer).toHaveBeenCalledWith("1", "1");
+    expect(result.customerId).toBe("1");
+  });
 });

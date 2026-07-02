@@ -62,7 +62,7 @@ their own `customerId`). See [authorization.md](./authorization.md) for exact ru
 | `updateCustomer` | `customerId: ID!, input: UpdateCustomerInput!` | `Customer` | ⚠️ Unprotected |
 | `deleteCustomer` | `customerId: ID!` | `Customer` | ⚠️ Unprotected |
 | `createCar` | `input: CreateCarInput!` | `Car` | Admin |
-| `updateCar` | `carId: ID!, input: UpdateCarInput!` | `Car` | ⚠️ Unprotected |
+| `updateCar` | `carId: ID!, input: UpdateCarInput!` | `Car` | Admin |
 | `deleteCar` | `carId: ID!` | `Car` | Admin |
 | `addCarToCustomer` | `carId: ID!, customerId: ID!` | `Customer` | Own |
 | `removeCarFromCustomer` | `carId: ID!, customerId: ID!` | `Customer` | Own |
@@ -73,15 +73,16 @@ their own `customerId`). See [authorization.md](./authorization.md) for exact ru
 ### Rent a car — `addCarToCustomer` (Own account)
 
 ```graphql
-mutation ($carId: ID!, $customerId: ID!) {
-  addCarToCustomer(carId: $carId, customerId: $customerId) {
+mutation ($carId: ID!, $customerId: ID!, $dueBackDate: Date!) {
+  addCarToCustomer(carId: $carId, customerId: $customerId, dueBackDate: $dueBackDate) {
     customerId
-    cars { carId make model }
+    cars { carId make model status rentalPeriod { dueBackDate } }
   }
 }
 ```
-`customerId` must be the signed-in customer's own id, else a forbidden error. Errors if the car is
-already leased or does not exist.
+`customerId` must be the signed-in customer's own id, else a forbidden error. `dueBackDate` is an ISO
+date/time and **must be in the future**. Errors if the car is already leased or does not exist. After
+renting, the car's `status` becomes `LEASED` (or `DUE_SOON`/`OVERDUE` as the due date nears/passes).
 
 ### Return a car — `removeCarFromCustomer` (Own account)
 Same shape as renting; removes the car from the customer's set.
@@ -114,7 +115,8 @@ See **[photos.md](./photos.md)**.
 ### Customer mutations
 - `createCustomer(input: CreateCustomerInput!)` — public. Note: normal users are provisioned
   automatically on first Google sign-in, so you rarely need this from a client.
-- `updateCustomer` / `deleteCustomer` — ⚠️ unprotected; gate in your UI (see authorization).
+- `updateCustomer` / `deleteCustomer` — ⚠️ still unprotected; gate in your UI (see authorization).
+  (`updateCar` is now administrator-only.)
 
 ---
 
@@ -139,16 +141,29 @@ See **[photos.md](./photos.md)**.
 | `model` | `String!` | |
 | `type` | `CarType!` | enum |
 | `costPerDay` | `Float!` | |
-| `leasedDate` | `Date` | Nullable |
-| `returnDate` | `Date` | Nullable |
+| `plate` | `String` | Licence plate (nullable) |
+| `year` | `Int` | Nullable |
+| `seats` | `Int` | Nullable |
+| `transmission` | `String` | e.g. `Automatic` / `Manual` (nullable) |
+| `fuel` | `String` | e.g. `Petrol` / `Electric` (nullable) |
+| `colour` | `String` | Nullable |
+| `status` | `FleetStatus!` | Derived: `AVAILABLE` / `LEASED` / `DUE_SOON` / `OVERDUE` |
+| `rentalPeriod` | `RentalPeriod` | `null` when available; else `{ leaseDate, dueBackDate }` |
 | `customer` | `Customer` | The renter, or `null` if available (resolved on demand) |
 | `photo` | `CarPhoto` | `null` when the car has no photo (resolved on demand) |
+| `leasedDate` / `returnDate` | `Date` | Raw dates backing `rentalPeriod`; prefer `rentalPeriod`/`status` |
 
 ### `CarPhoto`
 | Field | Type | Notes |
 |-------|------|-------|
 | `url` | `String!` | Public URL to fetch the image bytes (`GET /photos/:carId`) |
 | `contentType` | `String!` | e.g. `image/jpeg` |
+
+### `RentalPeriod`
+| Field | Type | Notes |
+|-------|------|-------|
+| `leaseDate` | `Date!` | When the car was rented |
+| `dueBackDate` | `Date!` | When it is due back |
 
 ---
 
@@ -157,6 +172,7 @@ See **[photos.md](./photos.md)**.
 ```graphql
 enum CustomerRole { CUSTOMER ADMINISTRATOR }
 enum CarType { CONVERTABLE COUPE HATCH SEDAN SUV }
+enum FleetStatus { AVAILABLE LEASED DUE_SOON OVERDUE }
 ```
 
 > Note: the fleet enum value is spelled `CONVERTABLE` (as in the schema).
@@ -172,11 +188,13 @@ enum CarType { CONVERTABLE COUPE HATCH SEDAN SUV }
 `firstName: String`, `lastName: String`, `email: String`, `age: Int` — all optional (partial update).
 
 ### `CreateCarInput`
-`carId: ID!`, `make: String!`, `model: String!`, `type: CarType!`, `costPerDay: Float!` — all required.
+Required: `carId: ID!`, `make: String!`, `model: String!`, `type: CarType!`, `costPerDay: Float!`.
+Optional detail fields: `plate: String`, `year: Int`, `seats: Int`, `transmission: String`,
+`fuel: String`, `colour: String`.
 
 ### `UpdateCarInput`
-`make: String`, `model: String`, `type: CarType`, `costPerDay: Float`, `leasedDate: Date`,
-`returnDate: Date` — all optional.
+All optional: `make`, `model`, `type`, `costPerDay`, `leasedDate`, `returnDate`, `plate`, `year`,
+`seats`, `transmission`, `fuel`, `colour`.
 
 ### `AddCarPhotoInput`
 `data: String!` (base64-encoded image), `contentType: String!` — see [photos.md](./photos.md).
