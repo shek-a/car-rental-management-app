@@ -41,7 +41,7 @@ Resolvers are collected and merged in `src/resolvers.ts`, then wired to Apollo i
 
 **MongoDB access** uses Mongoose models defined in `src/model/`. Nested entity data (e.g. `Customer.cars`) is fetched via Mongoose `.populate()` in field resolvers, not embedded directly.
 
-**Config** is hardcoded in `src/config/config.ts` (port `8082`, DB URI `mongodb://localhost:27017`) — no `.env` file.
+**Config** is hardcoded in `src/config/config.ts` (port `8082`, DB URI `mongodb://localhost:27017`). Secrets (`BETTER_AUTH_SECRET`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`) load from a git-ignored `.env` file via dotenv — see `.env.example`.
 
 @.claude/skills/coding-standards/SKILL.md
 @.claude/skills/domain-driven-design/SKILL.md

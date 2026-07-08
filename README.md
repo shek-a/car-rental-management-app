@@ -183,13 +183,20 @@ passwords. See `specs/001-user-authentication/` for the full spec, plan, and con
 
 ### Required environment variables (secrets)
 
-Set these before `yarn start` (never commit them):
+Copy the template and fill in the values — `.env` is git-ignored, never commit it:
 
 ```sh
-export BETTER_AUTH_SECRET=...     # random 32+ char string
-export GOOGLE_CLIENT_ID=...       # Google OAuth 2.0 Web client id
-export GOOGLE_CLIENT_SECRET=...   # Google OAuth 2.0 Web client secret
+cp .env.example .env
 ```
+
+```sh
+BETTER_AUTH_SECRET=...     # random 32+ char string (openssl rand -base64 32)
+GOOGLE_CLIENT_ID=...       # Google OAuth 2.0 Web client id
+GOOGLE_CLIENT_SECRET=...   # Google OAuth 2.0 Web client secret
+```
+
+The server loads `.env` at startup via [dotenv](https://github.com/motdotla/dotenv). Variables
+already exported in the shell take precedence over `.env` values.
 
 Create the OAuth client in the Google Cloud Console and register
 `http://localhost:8082/api/auth/callback/google` as an authorized redirect URI. Non-secret auth

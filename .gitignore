@@ -4,6 +4,7 @@ node_modules
 # Secrets / environment — never commit auth credentials
 .env
 .env.*
+!.env.example
 
 # Build output
 dist
