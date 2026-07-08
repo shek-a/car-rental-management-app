@@ -1,3 +1,5 @@
+// Must be the first import: modules below read secrets from process.env at load time.
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
