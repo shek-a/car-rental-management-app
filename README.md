@@ -2,10 +2,11 @@
 
 The Car Rental Management Application is a Node.js + Apollo GraphQL backend for running a car rental
 service. Customers sign in with their Google account (no passwords are stored) and can browse the
-public car catalogue, rent cars, and return them. Administrators manage the fleet — creating and
-deleting cars, attaching a photo to each car, and granting administrator access to others. Access is
-role-based (Customer and Administrator), authentication is handled by Better Auth, and all data is
-stored in MongoDB and served through a single GraphQL API (with car photos served over HTTP).
+public car catalogue, search for cars available at a location over a chosen rental period, rent
+cars, and return them. Administrators manage the fleet — creating and deleting cars, recording each
+car's pickup location, attaching a photo to each car, and granting administrator access to others.
+Access is role-based (Customer and Administrator), authentication is handled by Better Auth, and all
+data is stored in MongoDB and served through a single GraphQL API (with car photos served over HTTP).
 
 ## Requirements
 You need the following installed to run the application locally

@@ -26,6 +26,7 @@ export type Car = {
   customer?: Maybe<Customer>;
   fuel?: Maybe<Scalars['String']>;
   leasedDate?: Maybe<Scalars['Date']>;
+  location?: Maybe<Scalars['String']>;
   make: Scalars['String'];
   model: Scalars['String'];
   photo?: Maybe<CarPhoto>;
@@ -58,6 +59,7 @@ export type CreateCarInput = {
   colour?: InputMaybe<Scalars['String']>;
   costPerDay: Scalars['Float'];
   fuel?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']>;
   make: Scalars['String'];
   model: Scalars['String'];
   plate?: InputMaybe<Scalars['String']>;
@@ -180,6 +182,7 @@ export type Query = {
   cars: Array<Car>;
   customer?: Maybe<Customer>;
   customers: Array<Customer>;
+  searchAvailableCars: Array<Car>;
 };
 
 
@@ -192,8 +195,19 @@ export type QueryCustomerArgs = {
   customerId: Scalars['ID'];
 };
 
+
+export type QuerySearchAvailableCarsArgs = {
+  location: Scalars['String'];
+  requestedPeriod: RentalPeriodInput;
+};
+
 export type RentalPeriod = {
   __typename?: 'RentalPeriod';
+  dueBackDate: Scalars['Date'];
+  leaseDate: Scalars['Date'];
+};
+
+export type RentalPeriodInput = {
   dueBackDate: Scalars['Date'];
   leaseDate: Scalars['Date'];
 };
@@ -203,6 +217,7 @@ export type UpdateCarInput = {
   costPerDay?: InputMaybe<Scalars['Float']>;
   fuel?: InputMaybe<Scalars['String']>;
   leasedDate?: InputMaybe<Scalars['Date']>;
+  location?: InputMaybe<Scalars['String']>;
   make?: InputMaybe<Scalars['String']>;
   model?: InputMaybe<Scalars['String']>;
   plate?: InputMaybe<Scalars['String']>;

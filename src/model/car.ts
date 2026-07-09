@@ -46,6 +46,7 @@ export const carSchema = new Schema<CarEntity>({
   transmission: String,
   fuel: String,
   colour: String,
+  location: String,
   customer: {
     type: Schema.Types.ObjectId,
     ref: CUSTOMER_MONGO_DB_COLLECTION,

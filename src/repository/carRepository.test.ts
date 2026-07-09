@@ -1,5 +1,6 @@
 import {
   findByCarId,
+  findByLocation,
   setPhoto,
   clearPhoto,
   setRentalPeriod,
@@ -8,6 +9,7 @@ import {
 import { CarModel, CarPhotoMetadata } from "@/model/car";
 import { createNewCar, createNewCustomer } from "@/testing/utilities";
 import { createRentalPeriod } from "@/domain/rental/rentalPeriod";
+import { createLocation } from "@/domain/car/location";
 
 // A query whose .exec() resolves to the given value. Mongoose's Query type is impractical to mock,
 // so the boundary is stubbed and the filter/update arguments are captured below.
@@ -35,6 +37,24 @@ describe("car repository", () => {
 
     expect(result).toEqual(car);
     expect(findOne).toHaveBeenCalledWith({ carId: "1" });
+  });
+
+  it("finds the cars at a location, matching case-insensitively via collation", async () => {
+    const carsAtLocation = [createNewCar("1", undefined, "Melbourne")];
+    const collation = jest
+      .fn()
+      .mockReturnValue({ exec: jest.fn().mockResolvedValue(carsAtLocation) });
+    // The chained query (find → collation → exec) is stubbed at the Mongoose boundary; the
+    // filter and collation arguments are captured below.
+    const find = jest
+      .spyOn(CarModel, "find")
+      .mockReturnValue({ collation } as unknown as ReturnType<typeof CarModel.find>);
+
+    const result = await findByLocation(createLocation(" melbourne "));
+
+    expect(result).toEqual(carsAtLocation);
+    expect(find).toHaveBeenCalledWith({ location: "melbourne" });
+    expect(collation).toHaveBeenCalledWith({ locale: "en", strength: 2 });
   });
 
   it("sets a car's photo metadata and returns the updated car", async () => {

@@ -13,6 +13,10 @@ export const typeDefs = gql`
     customers: [Customer!]!
     car(carId: ID!): Car
     cars: [Car!]!
+    searchAvailableCars(
+      location: String!
+      requestedPeriod: RentalPeriodInput!
+    ): [Car!]!
   }
 
   type Mutation {
@@ -66,6 +70,11 @@ export const typeDefs = gql`
     dueBackDate: Date!
   }
 
+  input RentalPeriodInput {
+    leaseDate: Date!
+    dueBackDate: Date!
+  }
+
   type Car {
     carId: ID!
     make: String!
@@ -82,6 +91,7 @@ export const typeDefs = gql`
     transmission: String
     fuel: String
     colour: String
+    location: String
     rentalPeriod: RentalPeriod
     status: FleetStatus!
   }
@@ -121,6 +131,7 @@ export const typeDefs = gql`
     transmission: String
     fuel: String
     colour: String
+    location: String
   }
 
   input UpdateCarInput {
@@ -136,5 +147,6 @@ export const typeDefs = gql`
     transmission: String
     fuel: String
     colour: String
+    location: String
   }
 `;
