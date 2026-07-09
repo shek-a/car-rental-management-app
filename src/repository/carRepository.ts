@@ -1,11 +1,19 @@
 import { CarModel, CarEntity, CarPhotoMetadata } from "@/model/car";
 import { Customer } from "@/generated/types";
 import { RentalPeriod } from "@/domain/rental/rentalPeriod";
+import { Location } from "@/domain/car/location";
 
 // Repository: the only place that speaks Mongoose for cars. Callers work with domain Car entities.
 
 export const findByCarId = (carId: string): Promise<CarEntity | null> =>
   CarModel.findOne({ carId }).exec();
+
+// Find the cars recorded at a location. Matching is case-insensitive via Mongo collation
+// (strength 2 ignores case), so a search for "melbourne" finds cars stored at "Melbourne".
+export const findByLocation = (location: Location): Promise<CarEntity[]> =>
+  CarModel.find({ location: location.value })
+    .collation({ locale: "en", strength: 2 })
+    .exec();
 
 export const setPhoto = (
   carId: string,

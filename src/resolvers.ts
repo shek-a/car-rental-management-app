@@ -1,5 +1,5 @@
 import { customer, customers } from "./resolvers/queries/customer";
-import { car, cars } from "./resolvers/queries/car";
+import { car, cars, searchAvailableCars } from "./resolvers/queries/car";
 import {
   createCustomer,
   deleteCustomer,
@@ -26,7 +26,8 @@ export const resolvers = {
     customer,
     customers,
     car,
-    cars
+    cars,
+    searchAvailableCars
   },
   Mutation: {
     createCustomer,

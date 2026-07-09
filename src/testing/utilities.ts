@@ -40,7 +40,11 @@ export const createAdministrator = (
   cars?: Array<Car>
 ): Customer => createNewCustomer(customerId, cars, CustomerRole.Administrator);
 
-export const createNewCar = (carId: string, customer?: Customer): Car => {
+export const createNewCar = (
+  carId: string,
+  customer?: Customer,
+  location?: string
+): Car => {
   return {
     carId,
     make: "Toyota",
@@ -56,6 +60,7 @@ export const createNewCar = (carId: string, customer?: Customer): Car => {
     // status is derived by the Car.status field resolver; a fixture placeholder for the required field.
     status: FleetStatus.Available,
     customer,
+    ...(location !== undefined && { location }),
   };
 };
 
@@ -65,10 +70,11 @@ export const createRentedCar = (
   carId: string,
   customer: Customer,
   leaseDate: Date,
-  dueBackDate: Date
+  dueBackDate: Date,
+  location?: string
 ): Car => {
   return {
-    ...createNewCar(carId, customer),
+    ...createNewCar(carId, customer, location),
     leasedDate: leaseDate,
     returnDate: dueBackDate,
     status: FleetStatus.Leased,

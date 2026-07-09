@@ -20,6 +20,17 @@ export const createRentalPeriod = (
   return Object.freeze({ leaseDate, dueBackDate });
 };
 
+// Two rental periods conflict when they share any calendar day (UTC). Stored periods carry times
+// of day (a rental's lease date is the instant it was rented), but the business rule — no
+// same-day turnaround — is defined in days, so dates are truncated to their UTC calendar day
+// before the inclusive-boundary comparison.
+const utcCalendarDay = (date: Date): number =>
+  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+
+export const periodsOverlap = (a: RentalPeriod, b: RentalPeriod): boolean =>
+  utcCalendarDay(a.leaseDate) <= utcCalendarDay(b.dueBackDate) &&
+  utcCalendarDay(b.leaseDate) <= utcCalendarDay(a.dueBackDate);
+
 // Read-side projection: reconstruct the RentalPeriod from a car's persisted dates. Lenient (returns
 // null rather than throwing) because these dates were already validated when the car was rented.
 export const rentalPeriodFromDates = (
