@@ -194,6 +194,8 @@ cp .env.example .env
 BETTER_AUTH_SECRET=...     # random 32+ char string (openssl rand -base64 32)
 GOOGLE_CLIENT_ID=...       # Google OAuth 2.0 Web client id
 GOOGLE_CLIENT_SECRET=...   # Google OAuth 2.0 Web client secret
+SEED_ADMIN_EMAIL=...       # Google email provisioned as the first administrator
+MONGODB_CONNECTION_URI=... # optional — defaults to mongodb://localhost:27017
 ```
 
 The server loads `.env` at startup via [dotenv](https://github.com/motdotla/dotenv). Variables
@@ -201,7 +203,8 @@ already exported in the shell take precedence over `.env` values.
 
 Create the OAuth client in the Google Cloud Console and register
 `http://localhost:8082/api/auth/callback/google` as an authorized redirect URI. Non-secret auth
-config (base URL, seed admin email) lives in `src/config/config.ts`.
+config (base URL, auth path) lives in `src/config/config.ts`; the seed admin email and the
+MongoDB connection string are set in `.env` (both fall back to local-dev defaults).
 
 ### Signing in (headless API client)
 
@@ -216,8 +219,8 @@ On first sign-in a `Customer` is provisioned for the Google identity; repeat sig
 
 - **Customer** — may rent/return cars against their own account.
 - **Administrator** — may create/delete cars and grant the administrator role to others via the
-  `grantAdministratorRole` mutation. The seed admin (`andrew.shek23@gmail.com`) is an administrator
-  on sign-in; reading the car catalogue is public.
+  `grantAdministratorRole` mutation. The seed admin — the Google email set as `SEED_ADMIN_EMAIL`
+  in `.env` — is an administrator on sign-in; reading the car catalogue is public.
 
 ## Car Photos
 
